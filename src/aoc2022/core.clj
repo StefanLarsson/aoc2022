@@ -45,10 +45,10 @@
         val (read-string valstring)]
     (println dir val)
     (case dir
-      "forward" {:depth (:depth pos) :horiz (+ val (:horiz pos))}
-      "up" {:depth (- (:depth pos) val) :horiz (:horiz pos)}
-      "down" {:depth (+ (:depth pos) val) :horiz (:horiz pos)})
-    ))
+      "forward" (assoc pos :horiz (+ val (:horiz pos)))
+      "up" (assoc pos :depth (- (:depth pos) val)) 
+      "down" (assoc pos :depth (+ (:depth pos) val))
+    )))
 
 (def initial-pos {:depth 0 :horiz 0})
 

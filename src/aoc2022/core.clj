@@ -1,6 +1,8 @@
 (ns aoc2022.core
   (:gen-class))
 
+(require '[clojure.string :as str])
+
 (def filename-to-lines #(clojure.string/split-lines (slurp %)))
 
 (defn count-increases [xs]
@@ -37,6 +39,25 @@
   (let 
     [numbers (map read-string (filename-to-lines "data/legacy/2021/day1.txt"))]
     (list (count-increases numbers) (count-running-increases numbers 3))))
+
+(defn apply-command [pos cmd]
+  (let [[dir valstring] (str/split cmd #" ")
+        val (read-string valstring)]
+    (println dir val)
+    (case dir
+      "forward" {:depth (:depth pos) :horiz (+ val (:horiz pos))}
+      "up" {:depth (- (:depth pos) val) :horiz (:horiz pos)}
+      "down" {:depth (+ (:depth pos) val) :horiz (:horiz pos)})
+    ))
+
+(def initial-pos {:depth 0 :horiz 0})
+
+(defn aoc2021-2 []
+  (let
+    [commands (filename-to-lines "data/legacy/2021/day2.txt")]
+    (reduce apply-command initial-pos commands)))
+
+
 
 (defn -main
   "I don't do a whole lot ... yet."

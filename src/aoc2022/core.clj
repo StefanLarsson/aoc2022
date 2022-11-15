@@ -2,8 +2,8 @@
   (:gen-class))
 
 (require '[clojure.string :as str])
-
-(def filename-to-lines #(clojure.string/split-lines (slurp %)))
+(require 'aoc2022.util)
+(refer 'aoc2022.util)
 
 (defn count-increases [xs]
   (if (not (seq xs))

@@ -51,12 +51,25 @@
     )))
 
 (def initial-pos {:depth 0 :horiz 0})
+(def initial-aim-pos {:depth 0 :horiz 0 :aim 0})
 
-(defn aoc2021-2 []
+(defn apply-aim-command [pos cmd]
+  (let [[dir valstring] (str/split cmd #" ")
+        val (read-string valstring)]
+       (case dir
+         "forward" (assoc pos :horiz (+ val (:horiz pos)) :depth (+ (* (:aim pos) val) (:depth pos)))
+         "up" (assoc pos :aim (- (:aim pos) val ))
+         "down" (assoc pos :aim  (+ (:aim pos) val)))))
+
+(defn aoc2021-2-1 []
   (let
     [commands (filename-to-lines "data/legacy/2021/day2.txt")]
     (reduce apply-command initial-pos commands)))
 
+(defn aoc2021-2-2 []
+  (let
+    [commands (filename-to-lines "data/legacy/2021/day2.txt")]
+    (reduce apply-aim-command initial-aim-pos commands)))
 
 
 (defn -main

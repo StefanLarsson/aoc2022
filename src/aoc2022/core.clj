@@ -5,6 +5,9 @@
 (require 'aoc2022.util)
 (refer 'aoc2022.util)
 
+(require 'aoc2022.day1)
+(refer 'aoc2022.day1)
+
 (defn count-increases [xs]
   (if (not (seq xs))
      0

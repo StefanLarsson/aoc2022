@@ -6,7 +6,8 @@
 (refer 'aoc2022.util)
 
 (require 'aoc2022.day1)
-(refer 'aoc2022.day1)
+(require '[aoc2022.day2 :as day2])
+(require '[aoc2022.day3 :as day3])
 
 (defn count-increases [xs]
   (if (not (seq xs))

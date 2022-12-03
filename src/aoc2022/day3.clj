@@ -2,6 +2,7 @@
   (:gen-class))
 
 (require '[clojure.string :as str])
+(require 'clojure.set )
 
 (def test_data 
   ["vJrwpWtwJgWrhcsFMMfFFhFp"
@@ -27,4 +28,5 @@
         (if (contains? first-set (nth s (+ i halfl)))
           (nth s (+ i halfl))
           (recur (inc i)))))))
-        
+
+(defn find-common-set [[a b c]] (first (clojure.set/intersection (set a) (set b) (set c))))

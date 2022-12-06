@@ -51,16 +51,23 @@
       [from to]
       (recur (dec n) (move [from to])))))
 
+(defn move-crates-better [n [from to]]
+  (let [carried (into '() (take n from))
+        restocol (if to
+                   (into (seq to ) carried)
+                   (into '() carried))]
+    [(drop n from) restocol]))
+
 (def initial_test_state ["NZ" "DCM" "P"])
 
-(defn move-crates-state [n from to state]
+(defn move-crates-state [n from to state mover]
   (do (println n from to state))
   (let [
         fromidx (dec from)
         toidx (dec to)
         fromcol (get state fromidx)
         tocol (get state toidx)
-        [resfromcol restocol] (move-crates n [fromcol tocol])]
+        [resfromcol restocol] (mover n [fromcol tocol])]
     (assoc (assoc state fromidx resfromcol) toidx restocol)))
 
 
@@ -93,13 +100,13 @@
       ;(map identity acc)
       (recur (rest lines) (initial-state-apply-line (first lines) acc)))))
 
-(defn proceed-moves [lines state]
+(defn proceed-moves [lines state mover]
   (loop [lines lines
          acc state]
     (if (empty? lines) 
       acc
       (let [[n [from to]] (type3line (first lines))]
-        (recur (rest lines) (move-crates-state n from to acc))))))
+        (recur (rest lines) (move-crates-state n from to acc mover))))))
 
 (defn day5-1 [all-lines]
   (let [initial-state-lines (take-while #(not (empty? %)) all-lines)
@@ -111,5 +118,16 @@
       ;(println initial-state-lines-parsed)
       (println initial-state)
       (println move-lines))
-    (proceed-moves move-lines initial-state)))
+    (proceed-moves move-lines initial-state move-crates )))
                          
+(defn day5-2 [all-lines]
+  (let [initial-state-lines (take-while #(not (empty? %)) all-lines)
+        move-lines (drop 1 (drop-while #(not (empty? %)) all-lines ))
+        initial-state-lines-parsed (map type1line initial-state-lines)
+        initial-state (build-initial-state (drop-last initial-state-lines-parsed))]
+    (do
+      ;(println initial-state-lines)
+      ;(println initial-state-lines-parsed)
+      (println initial-state)
+      (println move-lines))
+    (proceed-moves move-lines initial-state move-crates-better )))

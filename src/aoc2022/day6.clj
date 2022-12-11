@@ -37,5 +37,6 @@
     nil
     (loop [i n
            first-n-queue (into clojure.lang.PersistentQueue/EMPTY (take n s))
-
-           ])))
+           remaining (drop n s) ]
+      (if (all-different? first-n-queue) i
+        (recur (inc i) (conj (pop first-n-queue) (first remaining)) (rest remaining))))))

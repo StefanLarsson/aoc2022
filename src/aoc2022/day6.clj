@@ -23,3 +23,19 @@
 
 (defn day6-1 []
   (first-valid-marker-position (slurp "data/day6.txt")))
+
+(defn all-different? [coll]
+  (loop [checked #{}
+         coll coll]
+    (if (empty? coll) true
+      (let [x (first coll)]
+        (if (contains? checked x) false
+          (recur (conj checked x) (rest coll)))))))
+
+(defn first-n-different-position [n s]
+  (if (< (count s) n)
+    nil
+    (loop [i n
+           first-n-queue (into clojure.lang.PersistentQueue/EMPTY (take n s))
+
+           ])))
